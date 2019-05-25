@@ -1,0 +1,10 @@
+<resources>
+	<string name="app_name">Verdict</string>
+
+	<!-- TODO: Remove or change this placeholder text -->
+	<string name="new_trial">New Options Trial</string>
+	<string name="existing_trial">Choose Saved Options Trial</string>
+
+	<!-- TODO: Remove or change this placeholder text -->
+	<string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
