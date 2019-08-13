@@ -11,6 +11,8 @@ import android.view.*
 import android.widget.EditText
 import android.widget.Toast
 import android.widget.LinearLayout
+import com.impinity.verdict.com.impinity.verdict.OptionViewModel
+import com.impinity.verdict.com.impinity.verdict.db.Option
 
 class TrialFragment : Fragment() {
     private lateinit var optionsRecyclerView: RecyclerView
@@ -18,9 +20,11 @@ class TrialFragment : Fragment() {
     private lateinit var optionsManager: RecyclerView.LayoutManager
     private lateinit var optionsList: MutableList<String>
     private lateinit var addOptionFAB: View
+    private var trialTitle: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_trial, container, false)
+        trialTitle = arguments?.getString("title")
         setTrialToolbar(rootView)
         optionsList = mutableListOf()
         optionsManager = LinearLayoutManager(rootView.context)
@@ -42,11 +46,17 @@ class TrialFragment : Fragment() {
             R.id.action_done -> {
                 if (optionsList.size == 0) {
                     Toast.makeText(context, "No Options Added", Toast.LENGTH_SHORT).show()
-                }
-                else {
+                } else {
                     sendToResultFragment()
                 }
                 return true
+            }
+            R.id.action_save -> {
+                if (optionsList.size == 0) {
+                    Toast.makeText(context, "No Options Added", Toast.LENGTH_SHORT).show()
+                } else {
+                    saveOptionsList()
+                }
             }
         }
         return super.onOptionsItemSelected(item)
@@ -55,7 +65,7 @@ class TrialFragment : Fragment() {
     private fun setTrialToolbar(sourceView: View) {
         val toolbar = sourceView.findViewById(R.id.my_toolbar) as Toolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        (activity as AppCompatActivity).supportActionBar?.title = arguments?.getString("title")
+        (activity as AppCompatActivity).supportActionBar?.title = trialTitle
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
         setHasOptionsMenu(true)
@@ -69,6 +79,14 @@ class TrialFragment : Fragment() {
         val manager = activity!!.supportFragmentManager
         val trans = manager.beginTransaction()
         trans.replace(R.id.fragment_container, resultFragment, "ResultFragment").commit()
+    }
+
+    private fun saveOptionsList() {
+        val viewModel = OptionViewModel(activity!!.application)
+        for (item in optionsList) {
+            val tempOption = Option(item, trialTitle)
+            viewModel.insert(tempOption)
+        }
     }
 
     private fun getRandomOption() : String {

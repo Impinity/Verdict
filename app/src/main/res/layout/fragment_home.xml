@@ -30,12 +30,12 @@
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		android:textColor="@android:color/white"
-		app:layout_constraintBottom_toTopOf="@id/existing_trial_button"/>
+		app:layout_constraintBottom_toTopOf="@id/choose_trial_button"/>
 	<Button
 		android:layout_width="0dp"
 		android:layout_height="56dp"
 		android:text="@string/existing_trial"
-		android:id="@+id/existing_trial_button"
+		android:id="@+id/choose_trial_button"
 		style="@style/Widget.AppCompat.Button.Colored"
 		android:textColor="@android:color/white"
 		android:layout_marginBottom="32dp"

@@ -19,10 +19,17 @@ class HomeFragment : Fragment() {
                                 savedInstanceState: Bundle?): View? {
         // Inflated layout to be returned
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
+
         val newTrialButton = rootView.findViewById<Button>(R.id.new_trial_button)
         newTrialButton?.setOnClickListener{
             buildTitleDialog()
         }
+
+        val chooseTrialButton = rootView.findViewById<Button>(R.id.choose_trial_button)
+        chooseTrialButton?.setOnClickListener{
+            buildChoiceDialog()
+        }
+
         return rootView
     }
 
@@ -53,6 +60,14 @@ class HomeFragment : Fragment() {
         }
         builder?.show()
     }
+
+    /**
+     * Creates a dialog of trials for a user to choose from
+     */
+    private fun buildChoiceDialog() {
+
+    }
+
     private fun sendToTrialFragment(trialTitle: String) {
         val trialFragment = TrialFragment()
         val bundle = Bundle()
