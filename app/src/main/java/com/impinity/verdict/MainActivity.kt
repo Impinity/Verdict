@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
 
         val homeFragment = HomeFragment()
         trans.beginTransaction()
-            .add(R.id.fragment_container, homeFragment, "HomeFragment")
+            .replace(R.id.fragment_container, homeFragment, "HomeFragment")
             .commit()
     }
 
