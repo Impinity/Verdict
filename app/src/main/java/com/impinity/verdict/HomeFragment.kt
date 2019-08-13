@@ -1,24 +1,30 @@
 package com.impinity.verdict
 
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AlertDialog
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.*
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.impinity.verdict.com.impinity.verdict.OptionViewModel
 
 class HomeFragment : Fragment() {
-
+    var trialAdapter: ArrayAdapter<String>? = null
+    var trialList: List<String>? = null
+    private lateinit var optionViewModel: OptionViewModel
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                                 savedInstanceState: Bundle?): View? {
         // Inflated layout to be returned
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
+        initViewModel()
+        initTrialAdapter()
 
         val newTrialButton = rootView.findViewById<Button>(R.id.new_trial_button)
         newTrialButton?.setOnClickListener{
@@ -65,7 +71,15 @@ class HomeFragment : Fragment() {
      * Creates a dialog of trials for a user to choose from
      */
     private fun buildChoiceDialog() {
-
+        val builder: AlertDialog.Builder? = activity?.let {
+            AlertDialog.Builder(it)
+        }
+        builder?.setTitle("Choose Trial")
+        builder?.setAdapter(trialAdapter,
+            DialogInterface.OnClickListener { dialog, which ->
+                Log.v("Choices", "Choice ${trialList?.get(which)}")
+            })
+        builder?.show()
     }
 
     private fun sendToTrialFragment(trialTitle: String) {
@@ -78,4 +92,15 @@ class HomeFragment : Fragment() {
         trans.replace(R.id.fragment_container, trialFragment, "TrialFragment").commit()
     }
 
+    private fun initViewModel() {
+        optionViewModel = ViewModelProviders.of(this).get(OptionViewModel::class.java)
+        optionViewModel.allTrials.observe(this, Observer { trialList ->
+            trialList?.let{trialAdapter!!.clear(); trialAdapter!!.addAll(it)
+            trialAdapter?.notifyDataSetChanged()}
+        })
+    }
+
+    private fun initTrialAdapter() {
+        trialAdapter = ArrayAdapter(context, android.R.layout.simple_list_item_1)
+    }
 }

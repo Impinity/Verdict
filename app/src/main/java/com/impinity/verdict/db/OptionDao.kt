@@ -8,7 +8,7 @@ import androidx.room.Query
 
 @Dao
 interface OptionDao {
-    @Query("SELECT trial_name FROM Option")
+    @Query("SELECT DISTINCT trial_name FROM Option")
     fun getAllTrials(): LiveData<List<String>>
 
     @Query("SELECT option_name FROM Option WHERE trial_name = (:trialName)")

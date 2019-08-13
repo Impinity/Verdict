@@ -22,5 +22,4 @@ class OptionRepository (private val optionDao: OptionDao) {
         return optionDao.getTrialOptions(trialName)
     }
 
-
 }
