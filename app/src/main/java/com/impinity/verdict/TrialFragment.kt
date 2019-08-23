@@ -83,7 +83,9 @@ class TrialFragment : Fragment() {
         resultFragment.arguments = bundle
         val manager = activity!!.supportFragmentManager
         val trans = manager.beginTransaction()
-        trans.replace(R.id.fragment_container, resultFragment, "ResultFragment").commit()
+        trans.replace(R.id.fragment_container, resultFragment, "ResultFragment")
+        trans.addToBackStack(null)
+        trans.commit()
     }
 
     private fun saveOptionsList() {
@@ -100,7 +102,7 @@ class TrialFragment : Fragment() {
         optionsList.addAll(optionViewModel.getTrialOptions(title))
     }
 
-    private fun getRandomOption() : String {
+    public fun getRandomOption() : String {
         val randomIndex = (0..optionsList.size - 1).random()
         return optionsList[randomIndex]
     }
