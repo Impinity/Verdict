@@ -11,6 +11,9 @@ interface OptionDao {
     @Query("SELECT option_name FROM Option WHERE trial_name = (:trialName)")
     fun getTrialOptions(trialName: String?): List<String>
 
+    @Query("DELETE FROM Option WHERE trial_name = (:trialName)")
+    fun deleteAllFromTrial(trialName: String?)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(vararg options: Option)
 

@@ -88,6 +88,7 @@ class TrialFragment : Fragment() {
 
     private fun saveOptionsList() {
         val viewModel = OptionViewModel(activity!!.application)
+        viewModel.deleteAllFromTrial(trialTitle)
         for (item in optionsList) {
             val tempOption = Option(item, trialTitle)
             viewModel.insert(tempOption)

@@ -25,6 +25,10 @@ class OptionViewModel(application: Application) : AndroidViewModel(application) 
         repository.insert(option)
     }
 
+    fun deleteAllFromTrial(trialName: String?)  = viewModelScope.launch(Dispatchers.IO){
+        repository.deleteAllFromTrial(trialName)
+    }
+
 
     fun getTrialOptions(trialName: String?): List<String> {
         return repository.getTrialOptions(trialName)

@@ -14,8 +14,8 @@ class OptionRepository (private val optionDao: OptionDao) {
     }
 
     @WorkerThread
-    suspend fun delete(option: Option) {
-        optionDao.delete(option)
+    suspend fun deleteAllFromTrial(trialName: String?) {
+        optionDao.deleteAllFromTrial(trialName)
     }
 
     fun getTrialOptions(trialName: String?) : List<String> {

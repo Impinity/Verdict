@@ -25,7 +25,7 @@ class AddOptionsAdapter (private val myDataSet: MutableList<String>):
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.name.text = myDataSet[position];
+        holder.name.text = myDataSet[position]
         holder.remove.setOnClickListener {
             Log.v("ChoicesFragment", "position = $position | size = ${myDataSet.size}")
             myDataSet.removeAt(position)
