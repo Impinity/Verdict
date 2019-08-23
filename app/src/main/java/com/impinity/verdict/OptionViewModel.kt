@@ -26,7 +26,7 @@ class OptionViewModel(application: Application) : AndroidViewModel(application) 
     }
 
 
-    fun getTrialOptions(trialName: String) = viewModelScope.launch(Dispatchers.IO) {
-        repository.getTrialOptions(trialName)
+    fun getTrialOptions(trialName: String?): List<String> {
+        return repository.getTrialOptions(trialName)
     }
 }

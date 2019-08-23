@@ -61,7 +61,7 @@ class HomeFragment : Fragment() {
                 Toast.makeText(context, "No title selected", Toast.LENGTH_SHORT).show()
             }
             else {
-                sendToTrialFragment(titleInput.text.toString())
+                sendToTrialFragment(titleInput.text.toString(), true)
             }
         }
         builder?.show()
@@ -77,14 +77,16 @@ class HomeFragment : Fragment() {
         builder?.setTitle("Choose Trial")
         builder?.setAdapter(trialAdapter,
             DialogInterface.OnClickListener { dialog, which ->
-                Log.v("Choices", "Choice ${trialList?.get(which)}")
+                sendToTrialFragment(trialAdapter?.getItem(which), true)
+                Log.v("Choices", "Choice ${trialAdapter?.getItem(which)}")
             })
         builder?.show()
     }
 
-    private fun sendToTrialFragment(trialTitle: String) {
+    private fun sendToTrialFragment(trialTitle: String?, exists: Boolean) {
         val trialFragment = TrialFragment()
         val bundle = Bundle()
+        bundle.putBoolean("exists", exists)
         bundle.putString("title", trialTitle)
         trialFragment.arguments = bundle
         val manager = activity!!.supportFragmentManager

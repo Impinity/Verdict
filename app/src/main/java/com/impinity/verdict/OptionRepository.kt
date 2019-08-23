@@ -18,7 +18,7 @@ class OptionRepository (private val optionDao: OptionDao) {
         optionDao.delete(option)
     }
 
-    fun getTrialOptions(trialName: String) : LiveData<List<String>> {
+    fun getTrialOptions(trialName: String?) : List<String> {
         return optionDao.getTrialOptions(trialName)
     }
 

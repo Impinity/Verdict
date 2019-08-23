@@ -1,10 +1,7 @@
 package com.impinity.verdict.com.impinity.verdict.db
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface OptionDao {
@@ -12,9 +9,9 @@ interface OptionDao {
     fun getAllTrials(): LiveData<List<String>>
 
     @Query("SELECT option_name FROM Option WHERE trial_name = (:trialName)")
-    fun getTrialOptions(trialName: String): LiveData<List<String>>
+    fun getTrialOptions(trialName: String?): List<String>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(vararg options: Option)
 
     @Delete

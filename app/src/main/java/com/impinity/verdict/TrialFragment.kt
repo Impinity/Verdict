@@ -11,6 +11,7 @@ import android.view.*
 import android.widget.EditText
 import android.widget.Toast
 import android.widget.LinearLayout
+import androidx.lifecycle.ViewModelProviders
 import com.impinity.verdict.com.impinity.verdict.OptionViewModel
 import com.impinity.verdict.com.impinity.verdict.db.Option
 
@@ -20,13 +21,17 @@ class TrialFragment : Fragment() {
     private lateinit var optionsManager: RecyclerView.LayoutManager
     private lateinit var optionsList: MutableList<String>
     private lateinit var addOptionFAB: View
+    private lateinit var optionViewModel: OptionViewModel
     private var trialTitle: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_trial, container, false)
         trialTitle = arguments?.getString("title")
-        setTrialToolbar(rootView)
         optionsList = mutableListOf()
+        if(arguments?.getBoolean("exists") == true) {
+            initOptionsList(arguments?.getString("title"))
+        }
+        setTrialToolbar(rootView)
         optionsManager = LinearLayoutManager(rootView.context)
         optionsAdapter = AddOptionsAdapter(optionsList)
         optionsRecyclerView = rootView.findViewById<RecyclerView>(R.id.add_options_list).apply {
@@ -87,6 +92,11 @@ class TrialFragment : Fragment() {
             val tempOption = Option(item, trialTitle)
             viewModel.insert(tempOption)
         }
+    }
+
+    private fun initOptionsList(title: String?) {
+        optionViewModel = ViewModelProviders.of(this).get(OptionViewModel::class.java)
+        optionsList.addAll(optionViewModel.getTrialOptions(title))
     }
 
     private fun getRandomOption() : String {
